@@ -74,10 +74,10 @@ public class UtilidadesSemanaSantaTest {
     @Test
     public void testHermanosConMayorAntiguedad() {
 // Definimos la fecha actual
-        LocalDate fechaActual = LocalDate.of(2024, 3, 16);
+        LocalDate fechaActual = LocalDate.of(2024, 3, 14);
 
         // Creamos una hermandad de ejemplo
-        Hermandad hermandad = new Hermandad("Hermandad de la Macarena", "Macarena", 50.0, TipoCuota.Mensual, 30.0, null, "Basílica de la Macarena", DiaSalida.MADRUGA, null, null, null, null, null);
+        Hermandad hermandad = new Hermandad("Hermandad de la Macarena", "Macarena", 50.0, TipoCuota.Mensual, 30.0, null, "Basílica de la Macarena", DiaSalida.MADRUGA, null, null, null, new ArrayList<>(), null);
 
         // Creamos algunos hermanos de ejemplo con fechas de inscripción
         Hermano hermano1 = new Hermano("Juan", "Pérez", "12345678A", LocalDate.of(1980, 5, 10), fechaActual.minusYears(10));
@@ -117,10 +117,10 @@ public class UtilidadesSemanaSantaTest {
     @Test
     public void testElegirJuntaDeGobierno() {
             // Definimos la fecha actual
-            LocalDate fechaActual = LocalDate.of(2024, 3, 16);
+            LocalDate fechaActual = LocalDate.of(2024, 3, 15);
 
             // Creamos una hermandad de ejemplo
-            Hermandad hermandad = new Hermandad("Hermandad de la Macarena", "Macarena", 50.0, TipoCuota.Mensual, 30.0, null, "Basílica de la Macarena", DiaSalida.MARTES_SANTO, null, null, null, null, null);
+            Hermandad hermandad = new Hermandad("Hermandad de la Macarena", "Macarena", 50.0, TipoCuota.Mensual, 30.0, null, "Basílica de la Macarena", DiaSalida.MARTES_SANTO, null, null, null, new ArrayList<>(), null);
 
             // Creamos algunos hermanos de ejemplo con fechas de inscripción
             Hermano hermano1 = new Hermano("Juan", "Pérez", "12345678A", LocalDate.of(1980, 5, 10), fechaActual.minusYears(10));
@@ -168,10 +168,10 @@ public class UtilidadesSemanaSantaTest {
             Map<CargoJunta, Hermano> personalJunta = juntaGobierno.getPersonalJunta();
             assertEquals(CargoJunta.values().length, personalJunta.size());
             List<Hermano> hermanos = new ArrayList<>(hermandad.getHermanos());
-            hermanos.sort((h1, h2) -> h2.getFechaInscripcionHermandad().compareTo(h1.getFechaInscripcionHermandad()));
+            hermanos.sort((h1, h2) -> h1.getFechaInscripcionHermandad().compareTo(h2.getFechaInscripcionHermandad()));
             int i = 0;
-            for (Map.Entry<CargoJunta, Hermano> entry : personalJunta.entrySet()) {
-                Hermano hermanoAsignado = entry.getValue();
+            for (CargoJunta c: CargoJunta.values()) {
+                Hermano hermanoAsignado = personalJunta.get(c);
                 assertEquals(hermanos.get(i), hermanoAsignado);
                 i++;
             }
@@ -184,7 +184,7 @@ public class UtilidadesSemanaSantaTest {
         LocalDate fechaActual = LocalDate.of(2024, 3, 16);
 
         // Creamos una hermandad de ejemplo
-        Hermandad hermandad = new Hermandad("Hermandad de la Amargura", "La Amargura", 50.0, TipoCuota.Mensual, 30.0, null, "Igleisa de San Juan de la Palma", DiaSalida.DOMINGO_RAMOS, null, null, null, null, null);
+        Hermandad hermandad = new Hermandad("Hermandad de la Amargura", "La Amargura", 50.0, TipoCuota.Mensual, 30.0, null, "Igleisa de San Juan de la Palma", DiaSalida.DOMINGO_RAMOS, null, null, new ArrayList<>(), new ArrayList<>(), null);
 
         // Creamos algunos hermanos de ejemplo
         List<Hermano> hermanos = new ArrayList<>();
@@ -198,7 +198,7 @@ public class UtilidadesSemanaSantaTest {
         Titular cristo = new Titular("Nuestro Padre Jesús del Silencio ante el desprecio de Herodes", "Silencio Blanco", LocalDate.of(1870, 1, 1), TipoTitular.CRISTO);
         Titular virgen = new Titular("María Santísima de la Amargura", "La Amargura", LocalDate.of(1650, 2, 2), TipoTitular.VIRGEN);
 
-
+        hermandad.getTitulares().addAll(List.of(cristo,virgen));
         // Creamos algunos pasos de ejemplo
         List<Paso> pasos = new ArrayList<>();
         Paso paso1 = new Paso(new ArrayList<>(List.of(cristo)), 7, 50, 3, 1);
